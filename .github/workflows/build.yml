@@ -15,7 +15,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: 3.10
+        python-version: '3.10'
 
     - name: Install dependencies
       run: |
@@ -29,7 +29,7 @@ jobs:
         source venv/bin/activate
         python setup.py py2app
 
-    - name: Upload built app
+    - name: Upload .app bundle
       uses: actions/upload-artifact@v3
       with:
         name: crimescout_mac_app
