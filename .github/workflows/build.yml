@@ -1,41 +1,41 @@
-name: Build macOS .app
+name: Build macOS App and Upload
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  build:
+  build-macos-app:
     runs-on: macos-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    - name: Install dependencies
-      run: |
-        python3 -m venv venv
-        source venv/bin/activate
-        pip install --upgrade pip
-        pip install py2app pandas selenium folium
+      - name: Install dependencies
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install py2app pandas selenium folium
 
-    - name: Build app with py2app
-      run: |
-        source venv/bin/activate
-        python setup.py py2app
+      - name: Build crimescout_mac.app
+        run: |
+          source venv/bin/activate
+          python setup.py py2app
 
-    - name: Zip .app bundle
-      run: |
-        cd dist
-        zip -r crimescout_mac.zip crimescout_mac.app
+      - name: Zip the .app bundle
+        run: |
+          cd dist
+          zip -r crimescout_mac.zip crimescout_mac.app
 
-    - name: Upload zipped .app
-      uses: actions/upload-artifact@v3
-      with:
-        name: crimescout_mac_app
-        path: dist/crimescout_mac.zip
+      - name: Upload ZIP as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: crimescout_mac_app
+          path: dist/crimescout_mac.zip
